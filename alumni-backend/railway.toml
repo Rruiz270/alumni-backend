@@ -2,6 +2,6 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "npm run start"
+startCommand = "node minimal-test.js"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
