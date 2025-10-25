@@ -9,7 +9,7 @@ import teacherRoutes from './routes/teacher'
 import adminRoutes from './routes/admin'
 
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = parseInt(process.env.PORT || '8000')
 
 // Initialize Prisma with error handling
 let prisma: PrismaClient
