@@ -30,6 +30,14 @@ app.get('/health', (req, res) => {
   })
 })
 
+// Simple test route without database
+app.get('/test', (req, res) => {
+  res.json({ 
+    message: 'Test route working',
+    timestamp: new Date().toISOString()
+  })
+})
+
 // API Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
@@ -60,6 +68,8 @@ const server = app.listen(PORT, () => {
   console.log(`🚀 Alumni by Better API running on port ${PORT}`)
   console.log(`📍 Health check: http://localhost:${PORT}/health`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`)
+}).on('error', (err) => {
+  console.error('❌ Server failed to start:', err)
 })
 
 // Graceful shutdown
