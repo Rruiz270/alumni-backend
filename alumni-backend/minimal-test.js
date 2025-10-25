@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const PORT = parseInt(process.env.PORT || '8000')
+const PORT = process.env.PORT || 8000
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() })
