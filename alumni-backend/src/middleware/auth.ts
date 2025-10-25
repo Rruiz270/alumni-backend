@@ -34,10 +34,16 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
       return res.status(401).json({ error: 'User not found or inactive' })
     }
     
-    req.user = user
+    req.user = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      level: user.level || undefined
+    }
     next()
   } catch (error) {
-    res.status(401).json({ error: 'Authentication failed' })
+    return res.status(401).json({ error: 'Authentication failed' })
   }
 }
 
