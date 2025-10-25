@@ -40,7 +40,7 @@ router.get('/level/:level', authenticateToken, async (req: AuthRequest, res) => 
 })
 
 // Get single topic
-router.get('/:id', authenticateToken, async (req: AuthRequest, res): Promise<void> => {
+router.get('/:id', authenticateToken, async (req: AuthRequest, res) => {
   try {
     const { id } = req.params
     

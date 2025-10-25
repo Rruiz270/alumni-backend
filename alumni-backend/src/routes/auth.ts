@@ -5,7 +5,7 @@ import prisma from '../utils/prisma'
 const router = Router()
 
 // Register
-router.post('/register', async (req, res): Promise<void> => {
+router.post('/register', async (req, res) => {
   try {
     const { email, password, name, role = 'STUDENT' } = req.body
     
@@ -44,7 +44,7 @@ router.post('/register', async (req, res): Promise<void> => {
 })
 
 // Login
-router.post('/login', async (req, res): Promise<void> => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body
     
