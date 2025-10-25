@@ -30,7 +30,7 @@ router.get('/students/:id/progress', authenticateToken, requireTeacher, async (r
   try {
     const { id } = req.params
     
-    const progress = await prisma.userProgress.findMany({
+    const progress = await prisma.progress.findMany({
       where: { userId: id },
       include: {
         topic: true

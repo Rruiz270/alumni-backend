@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
     
     res.status(201).json({ user, token })
   } catch (error) {
-    res.status(500).json({ error: 'Registration failed' })
+    return res.status(500).json({ error: 'Registration failed' })
   }
 })
 
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
       token
     })
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' })
+    return res.status(500).json({ error: 'Login failed' })
   }
 })
 

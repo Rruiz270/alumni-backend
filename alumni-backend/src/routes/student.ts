@@ -10,7 +10,7 @@ router.get('/dashboard', authenticateToken, requireStudent, async (req: AuthRequ
     const userId = req.user!.id
     
     // Get student progress
-    const progress = await prisma.userProgress.findMany({
+    const progress = await prisma.progress.findMany({
       where: { userId },
       include: {
         topic: true
@@ -22,7 +22,7 @@ router.get('/dashboard', authenticateToken, requireStudent, async (req: AuthRequ
     const recommendedTopics = await prisma.topic.findMany({
       where: { level: userLevel as any },
       take: 5,
-      orderBy: { order: 'asc' }
+      orderBy: { orderIndex: 'asc' }
     })
     
     res.json({
@@ -41,7 +41,7 @@ router.post('/progress', authenticateToken, requireStudent, async (req: AuthRequ
     const { topicId, completed, score } = req.body
     const userId = req.user!.id
     
-    const progress = await prisma.userProgress.upsert({
+    const progress = await prisma.progress.upsert({
       where: {
         userId_topicId: {
           userId,
@@ -49,15 +49,13 @@ router.post('/progress', authenticateToken, requireStudent, async (req: AuthRequ
         }
       },
       update: {
-        completed,
-        score,
+        preClassComplete: completed,
         updatedAt: new Date()
       },
       create: {
         userId,
         topicId,
-        completed,
-        score
+        preClassComplete: completed
       }
     })
     

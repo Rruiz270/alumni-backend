@@ -8,7 +8,7 @@ const router = Router()
 router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   try {
     const topics = await prisma.topic.findMany({
-      orderBy: { order: 'asc' },
+      orderBy: { orderIndex: 'asc' },
       include: {
         exercises: true
       }
@@ -27,7 +27,7 @@ router.get('/level/:level', authenticateToken, async (req: AuthRequest, res) => 
     
     const topics = await prisma.topic.findMany({
       where: { level: level as any },
-      orderBy: { order: 'asc' },
+      orderBy: { orderIndex: 'asc' },
       include: {
         exercises: true
       }
@@ -57,7 +57,7 @@ router.get('/:id', authenticateToken, async (req: AuthRequest, res) => {
     
     res.json(topic)
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch topic' })
+    return res.status(500).json({ error: 'Failed to fetch topic' })
   }
 })
 
