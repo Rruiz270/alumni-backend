@@ -9,8 +9,15 @@ import teacherRoutes from './routes/teacher'
 import adminRoutes from './routes/admin'
 
 const app = express()
-const prisma = new PrismaClient()
 const PORT = process.env.PORT || 8000
+
+// Initialize Prisma with error handling
+let prisma: PrismaClient
+try {
+  prisma = new PrismaClient()
+} catch (error) {
+  console.error('❌ Failed to initialize Prisma:', error)
+}
 
 // Middleware
 app.use(cors({
