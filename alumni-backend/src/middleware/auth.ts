@@ -41,7 +41,7 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
       role: user.role,
       level: user.level || undefined
     }
-    next()
+    return next()
   } catch (error) {
     return res.status(401).json({ error: 'Authentication failed' })
   }
@@ -57,7 +57,7 @@ export const requireRole = (roles: string[]) => {
       return res.status(403).json({ error: 'Insufficient permissions' })
     }
     
-    next()
+    return next()
   }
 }
 
