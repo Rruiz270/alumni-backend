@@ -40,7 +40,7 @@ router.get('/level/:level', authenticateToken, async (req: AuthRequest, res) => 
 })
 
 // Get single topic
-router.get('/:id', authenticateToken, async (req: AuthRequest, res) => {
+router.get('/:id', authenticateToken, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { id } = req.params
     
@@ -55,7 +55,7 @@ router.get('/:id', authenticateToken, async (req: AuthRequest, res) => {
       return res.status(404).json({ error: 'Topic not found' })
     }
     
-    res.json(topic)
+    return res.json(topic)
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch topic' })
   }
