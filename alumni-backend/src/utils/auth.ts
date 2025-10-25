@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-in-production'
+const getJWTSecret = () => {
+  const secret = process.env.JWT_SECRET || 'fallback-secret-change-in-production'
+  return secret
+}
 
 export const hashPassword = async (password: string): Promise<string> => {
   return await bcrypt.hash(password, 10)
@@ -12,12 +15,12 @@ export const comparePassword = async (password: string, hashedPassword: string):
 }
 
 export const generateToken = (payload: any): string => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
+  return jwt.sign(payload, getJWTSecret(), { expiresIn: '7d' })
 }
 
 export const verifyToken = (token: string): any => {
   try {
-    return jwt.verify(token, JWT_SECRET)
+    return jwt.verify(token, getJWTSecret())
   } catch (error) {
     throw new Error('Invalid token')
   }
