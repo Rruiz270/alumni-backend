@@ -71,7 +71,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 })
 
 // Start server
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Alumni by Better API running on port ${PORT}`)
   console.log(`📍 Health check: http://localhost:${PORT}/health`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`)
