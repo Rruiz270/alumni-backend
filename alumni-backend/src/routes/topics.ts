@@ -4,8 +4,8 @@ import prisma from '../utils/prisma'
 
 const router = Router()
 
-// Get all topics
-router.get('/', authenticateToken, async (req: AuthRequest, res) => {
+// Get all topics (public for testing)
+router.get('/', async (req, res) => {
   try {
     const topics = await prisma.topic.findMany({
       orderBy: { orderIndex: 'asc' },
@@ -20,8 +20,8 @@ router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   }
 })
 
-// Get topics by level
-router.get('/level/:level', authenticateToken, async (req: AuthRequest, res) => {
+// Get topics by level (public for testing)
+router.get('/level/:level', async (req, res) => {
   try {
     const { level } = req.params
     
