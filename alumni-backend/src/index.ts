@@ -19,9 +19,14 @@ try {
   console.error('❌ Failed to initialize Prisma:', error)
 }
 
-// Middleware
+// Middleware - Allow all Vercel domains and localhost
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://alumni-lms.vercel.app',
+    /^https:\/\/.*\.vercel\.app$/,  // Allow any Vercel preview deployments
+    /^https:\/\/alumni-lms-.*\.vercel\.app$/  // Allow any alumni-lms Vercel deployments
+  ],
   credentials: true
 }))
 app.use(express.json({ limit: '10mb' }))
