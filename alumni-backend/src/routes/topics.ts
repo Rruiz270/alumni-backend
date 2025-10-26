@@ -4,7 +4,7 @@ import prisma from '../utils/prisma'
 
 const router = Router()
 
-// Get all topics (public for testing)
+// Get all topics (public for testing - no auth required)
 router.get('/', async (req, res) => {
   try {
     const topics = await prisma.topic.findMany({
