@@ -7,7 +7,12 @@ const router = Router()
 // Register
 router.post('/register', async (req, res) => {
   try {
-    const { email, password, name, role = 'STUDENT' } = req.body
+    const { email, password, name, role = 'STUDENT', level, studentId } = req.body
+    
+    // Validate required fields
+    if (!email || !password || !name) {
+      return res.status(400).json({ error: 'Email, password, and name are required' })
+    }
     
     const existingUser = await prisma.user.findUnique({
       where: { email }
@@ -17,28 +22,54 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'User already exists' })
     }
     
+    // Check if studentId already exists (if provided)
+    if (studentId) {
+      const existingStudentId = await prisma.user.findUnique({
+        where: { studentId }
+      })
+      
+      if (existingStudentId) {
+        return res.status(400).json({ error: 'Student ID already exists' })
+      }
+    }
+    
     const hashedPassword = await hashPassword(password)
     
+    const userData: any = {
+      email,
+      password: hashedPassword,
+      name,
+      role
+    }
+    
+    // Only add level and studentId for STUDENT role
+    if (role === 'STUDENT') {
+      if (level) userData.level = level
+      if (studentId) userData.studentId = studentId
+    }
+    
     const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name,
-        role
-      },
+      data: userData,
       select: {
         id: true,
         email: true,
         name: true,
         role: true,
-        level: true
+        level: true,
+        studentId: true,
+        createdAt: true
       }
     })
     
     const token = generateToken({ userId: user.id })
     
-    return res.status(201).json({ user, token })
+    return res.status(201).json({ 
+      message: 'User registered successfully',
+      user, 
+      token 
+    })
   } catch (error) {
+    console.error('Registration error:', error)
     return res.status(500).json({ error: 'Registration failed' })
   }
 })
